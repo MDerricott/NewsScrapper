@@ -31,6 +31,53 @@ app.use(express.static("public"));
 //Connect to Mongo DB
 mongoose.connect("mongodb://localhost/newsscrapper", { useNewUrlParser: true });
 
+// Routes
+
+
+// Get route for scrapping
+app.get("/api/washingtonpost/scrape", function(req, res){
+
+    axios.get("https://www.washingtonpost.com/").then(function(response){
+    var $ = cheerio.load(response.data);
+    var results = [];
+
+    $("div.pb-feature").each(function(i, element){
+        var text = $(element)
+            .children("div.border-top-off")
+            .children("div.flex-stack")
+            .children("div.headline")
+            .text()
+        var href = $(element)
+            .children("div.border-top-off")
+            .children("div.flex-stack")
+            .children("div.headline")
+            .children("a")
+            .attr("href")
+        var blurb = $(element)
+            .children("div.border-top-off")
+            .children("div.flex-stack")
+            .children("div.blurb")
+            .text()
+        var byline = $(element)
+            .children("div.border-top-off")
+            .children("div.flex-stack")
+            .children("ul.sigline")
+            .children("li.byline")
+            .text()
+        
+        // Artile information
+        results.push({
+            headline: text,
+            blurb: blurb,
+            byline: byline.trim(),
+            href: href
+
+        });
+    })
+    res.json(results);
+});
+
+});
 
 
 
