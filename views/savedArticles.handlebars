@@ -1,0 +1,20 @@
+<div class="container">
+
+    <div class="saved-articles">
+       
+        {{#each article}}
+          
+            <h4 class="headline" data-id="{{this._id}}"> <a class="link" href={{this.articleUrl}}> {{this.title}}</a> </h4>
+            <p class="blurb"> {{this.blurb}} </p>
+            <p class="byline"> {{this.byline}} </p>
+            <button type="button" data-id="{{this._id}}" class="save-button btn btn-dark"> Add a Note </button>
+            <br>
+            <br>
+            
+        {{/each}}
+      
+    </div>
+
+
+
+</div>

@@ -2,6 +2,7 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var exphbs = require("express-handlebars");
 
 // Scrapper tools
 var cheerio = require("cheerio");
@@ -47,7 +48,7 @@ mongoose.connect(MONGODB_URI);
 //Connect to Mongo DB
 // mongoose.connect("mongodb://localhost/newsscrapper", { useNewUrlParser: true });
 
-// Routes
+// API Routes
 
 
 // Get route for scrapping
@@ -122,8 +123,31 @@ app.post("/api/article/save", function (req, res) {
 });
 
 
+// HTML Routes
 
+app.get("/", function(req, res) {
 
+    res.render("index");
+
+    // db.Example.findAll({}).then(function(dbExamples) {
+    //   res.render("index", {
+    //     msg: "Welcome!",
+    //     examples: dbExamples
+    //   });
+    // });
+  });
+
+  app.get("/saved-articles",function(req, res){
+      db.Article.find({})
+        .then(function(dbArticle){
+            res.render("savedArticles", {
+                article: dbArticle 
+            });
+        })
+        .catch(function(err){
+            res.json(err);
+        });
+  });
 
 
 

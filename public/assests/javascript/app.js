@@ -30,6 +30,7 @@ $.getJSON("/api/washingtonpost/scrape", function(data) {
 });
 
 
+
 $(document).on("click", ".save-button", function(){
     var articleId = $(this).attr("data-id")
     console.log(articleId)
