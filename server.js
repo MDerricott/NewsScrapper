@@ -11,7 +11,8 @@ var axios = require("axios");
 //Requires all model
 var db = require("./models");
 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
+
 
 //Initialize Express
 var app = express();
@@ -28,8 +29,13 @@ app.use(express.json());
 //Make public static folder
 app.use(express.static("public"));
 
+
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsscrapper";
+
+mongoose.connect(MONGODB_URI);
+
 //Connect to Mongo DB
-mongoose.connect("mongodb://localhost/newsscrapper", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost/newsscrapper", { useNewUrlParser: true });
 
 // Routes
 
