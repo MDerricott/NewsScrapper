@@ -43,7 +43,7 @@ app.engine(
   //MongoDB connection to work with Heroku
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsscrapper";
 
-mongoose.connect(MONGODB_URI);
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
 
 //Connect to Mongo DB
 // mongoose.connect("mongodb://localhost/newsscrapper", { useNewUrlParser: true });
@@ -90,11 +90,13 @@ app.get("/api/washingtonpost/scrape", function (req, res) {
                 href: href
             });
         })
-        res.json(results);
+        res.json(results)
+        
     });
 
 });
 
+//Get articles
 app.get("/api/articles", function (req,res){
     db.Article.find({})
         .then(function(dbArticle){
@@ -104,6 +106,38 @@ app.get("/api/articles", function (req,res){
             res.json(err);
         });
 });
+
+//Get Notes for an Article
+
+app.get("/api/articles/notes/:articleId", function(req, res){
+    db.Article.findOne({
+        _id: req.params.articleId
+    },
+    function(error, found){
+        // log any errors
+      if (error) {
+        console.log(error);
+        res.send(error);
+      }
+      else {
+        // Otherwise, send the note to the browser
+        // This will fire off the success function of the ajax request
+        console.log(found);
+        res.send(found);
+      }
+    })
+    .populate("note")
+    .then(function(dbArticleNotes){
+        res.json(dbArticleNotes)
+    })
+    .catch(function(err){
+        res.json(err)
+    });
+
+   
+
+});
+
 
 app.post("/api/article/save", function (req, res) {
     db.Article.create({
@@ -122,6 +156,24 @@ app.post("/api/article/save", function (req, res) {
         });
 });
 
+app.post("/api/new-note/:articleId", function(req, res){
+    db.Note.create({
+        // title: req.body.title,
+        body: req.body.body
+    })
+    .then(function(dbNote){
+        return db.Article.findOneAndUpdate({ _id: req.params.articleId }, { note: dbNote._id }, { new: true });
+    })
+    .then(function(dbArticle){
+        res.json(dbArticle)
+    })
+    .catch(function(err){
+        res.json(err_)
+    });
+})
+
+
+
 
 // HTML Routes
 
@@ -129,12 +181,6 @@ app.get("/", function(req, res) {
 
     res.render("index");
 
-    // db.Example.findAll({}).then(function(dbExamples) {
-    //   res.render("index", {
-    //     msg: "Welcome!",
-    //     examples: dbExamples
-    //   });
-    // });
   });
 
   app.get("/saved-articles",function(req, res){
