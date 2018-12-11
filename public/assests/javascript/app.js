@@ -57,9 +57,6 @@ $(document).on("click", ".save-button", function () {
 
 $(document).on("click", "#add-note", function () {
     var articleId = $(this).attr("data-id");
-    console.log($(".note-body").attr("data-articleId", articleId).val().trim());
-    
-
     $.ajax({
         method: "POST",
         url: "/api/new-note/" + articleId,

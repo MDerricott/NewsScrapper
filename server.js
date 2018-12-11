@@ -162,13 +162,13 @@ app.post("/api/new-note/:articleId", function(req, res){
         body: req.body.body
     })
     .then(function(dbNote){
-        return db.Article.findOneAndUpdate({ _id: req.params.articleId }, { note: dbNote._id }, { new: true });
+        return db.Article.findOneAndUpdate({ _id: req.params.articleId }, { $push: { note: dbNote._id }}, { new: true });
     })
     .then(function(dbArticle){
         res.json(dbArticle)
     })
     .catch(function(err){
-        res.json(err_)
+        res.json(err)
     });
 })
 
