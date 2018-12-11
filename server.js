@@ -31,7 +31,15 @@ app.use(express.json());
 //Make public static folder
 app.use(express.static("public"));
 
+app.engine(
+    "handlebars",
+    exphbs({
+      defaultLayout: "main"
+    })
+  );
+  app.set("view engine", "handlebars"); 
 
+  //MongoDB connection to work with Heroku
 var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/newsscrapper";
 
 mongoose.connect(MONGODB_URI);
