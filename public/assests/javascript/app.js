@@ -57,16 +57,22 @@ $(document).on("click", ".save-button", function () {
 
 $(document).on("click", "#add-note", function () {
     var articleId = $(this).attr("data-id");
+    var bodyText = $(".note-body").attr("data-articleId", articleId).val().trim();
+
+    console.log(bodyText);
+    console.log(articleId);
     $.ajax({
         method: "POST",
         url: "/api/new-note/" + articleId,
         data: {
-            body: $(".note-body").attr("data-articleId", articleId).val().trim()
+            noteBody: bodyText
         }
     })
     .then(function (data){
-        console.log(data)
-    })
+        console.log( "data" + data)
+       
+        
+    });
    
 
 })
