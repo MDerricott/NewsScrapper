@@ -1,43 +1,42 @@
-<div class="container">
+<div class="saved-articles">
 
-    <div class="saved-articles">
+    {{!-- {{#each article}}
 
-        {{#each article}}
+    <h4 class="headline" data-id="{{this._id}}">
+        <a class="link" href={{this.articleUrl}}> {{this.title}}</a>
+    </h4>
+    <p class="blurb"> {{this.blurb}} </p>
+    <p class="byline"> {{this.byline}} </p>
+    {{!--
+    <button type="button" data-id="{{this._id}}" class="save-button btn btn-dark"> Add a Note </button> --}}
+    {{!-- <p>
+        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample-{{this._id}}"
+            aria-expanded="false" aria-controls="collapseExample-{{this._id}}" id="noter" data-id="{{this._id}}">
+            Add a Note
+        </button>
+    </p>
+    <div class="collapse" id="collapseExample-{{this._id}}">
+        <div class="card card-body">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control note-body" data-id="{{this._id}}" placeholder="Enter Your Note"
+                    aria-label="Recipient's username" aria-describedby="button-addon2">
 
-        <h4 class="headline" data-id="{{this._id}}">
-            <a class="link" href={{this.articleUrl}}> {{this.title}}</a>
-        </h4>
-        <p class="blurb"> {{this.blurb}} </p>
-        <p class="byline"> {{this.byline}} </p>
-        {{!--
-        <button type="button" data-id="{{this._id}}" class="save-button btn btn-dark"> Add a Note </button> --}}
-        <p>
-            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample-{{this._id}}" aria-expanded="false"
-                aria-controls="collapseExample-{{this._id}}">
-                Add a Note
-            </button>
-        </p>
-        <div class="collapse" id="collapseExample-{{this._id}}">
-            <div class="card card-body">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control note-body" data-articleId="{{this._id}}" placeholder="Note Enter Your Note" aria-label="Recipient's username" aria-describedby="button-addon2">
-                    
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" data-id="{{this._id}}" type="button" id="add-note">Add Note</button>
-                    </div>
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary add-note" data-id="{{this._id}}" type="button">Add Note</button>
                 </div>
-                Notes go here
+            </div>
+            <div id="notes-here">
 
             </div>
+
+
         </div>
-        <br>
-        <br> {{/each}}
 
     </div>
 
 
 
+{{/each}} --}}
+
 </div>
-
-
-<p>
+<script src="/assests/javascript/sapp.js"></script>

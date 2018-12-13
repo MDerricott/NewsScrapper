@@ -1,12 +1,12 @@
 // if(text && href && blurb && byline)
 
 $.getJSON("/api/washingtonpost/scrape", function (data) {
-    console.log(data)
+    // console.log(data)
     var count = 0;
     for (var i = 0; i < data.length; i++) {
 
         if (data[i].headline && data[i].href && data[i].blurb && data[i].byline && data[i].href) {
-            console.log(data[i]);
+            // console.log(data[i]);
             count++;
             var articleData = {
                 headline: data[i].headline,
@@ -25,15 +25,26 @@ $.getJSON("/api/washingtonpost/scrape", function (data) {
             `)
         }
     }
-
-
 });
+// const names = princesses.map(function(princess) {
+//     return princess.name;
+//   });
+console.log("cl")
+$.getJSON("/saved-articles", function (data) {
+    let count = 0;
+    console.log(data)
+//     const articleData = data.map(function(data){
+//         console.log(data.title)
+//     })
+    
+//   articleData(); 
+})
 
 
 
 $(document).on("click", ".save-button", function () {
     var articleId = $(this).attr("data-id");
-    console.log(articleId);
+    // console.log(articleId);
 
     var newArticle = {
         title: $("h4.headline").attr("data-id", articleId)[articleId - 1].innerText,
@@ -43,36 +54,57 @@ $(document).on("click", ".save-button", function () {
     }
 
     $.ajax({
-            method: "POST",
-            url: "/api/article/save",
-            data: newArticle
-        })
+        method: "POST",
+        url: "/api/article/save",
+        data: newArticle
+    })
         .then(function (data) {
-            console.log(data)
-            console.log("New Article added")
+            // console.log(data)
+            // console.log("New Article added")
         })
 });
 
 
+//Get Notes 
+$(document).on("click", "#noter", function () {
 
-$(document).on("click", "#add-note", function () {
+
     var articleId = $(this).attr("data-id");
-    var bodyText = $(".note-body").attr("data-articleId", articleId).val().trim();
-
-    console.log(bodyText);
-    console.log(articleId);
+    // console.log(articleId);
+    console.log(articleId)
     $.ajax({
-        method: "POST",
-        url: "/api/new-note/" + articleId,
-        data: {
-            noteBody: bodyText
-        }
+        method: "GET",
+        url: "/api/articles/notes/" + articleId
     })
-    .then(function (data){
-        console.log( "data" + data)
-       
-        
-    });
-   
+        .then(function (data) {
+            console.log(data)
+        //     for (var i = 0 ; i < data.notes.length ; i++){
+        //         const noteBody = data.notes[i].noteBody;
+        //         const noteId = data.notes[i]._id;
+        //         // console.log(noteBody);
+        //     $("#notes-here").attr("data-id", articleId ).append(`<div><p> ${noteBody} <button type="button" data-id=${noteId}">  X </button></p></div>`)
+        //     }
+        })
+})
+
+$(document).on("click", ".add-note", function () {
+    
+    var articleId = $(this).attr("data-id");
+    var bodyText = $(".note-body").attr("data-id", articleId).val().trim();
+console.log(articleId)
+    
+    // $.ajax({
+    //     method: "POST",
+    //     url: "/api/new-note/" + articleId,
+    //     data: {
+    //         noteBody: bodyText
+    //     }
+    // })
+    //     .then(function (data) {
+    //         // console.log("data" + data)
+
+
+    //     });
+
 
 })

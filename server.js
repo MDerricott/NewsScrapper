@@ -92,13 +92,19 @@ app.get("/api/washingtonpost/scrape", function (req, res) {
         })
         res.json(results)
 
+    })
+    .catch(function (err) {
+        res.json(err);
     });
 
 });
 
+
+
 //Get articles
 app.get("/api/articles", function (req, res) {
     db.Article.find({})
+    .populate("notes")
         .then(function (dbArticle) {
             res.json(dbArticle)
         })
@@ -122,11 +128,11 @@ app.get("/api/articles/notes/:articleId", function (req, res) {
             else {
                 // Otherwise, send the note to the browser
                 // This will fire off the success function of the ajax request
-                console.log(found);
+               
                 res.send(found);
             }
         })
-        .populate("note")
+        .populate("notes")
         .then(function (dbArticleNotes) {
             res.json(dbArticleNotes)
         })
@@ -157,13 +163,13 @@ app.post("/api/article/save", function (req, res) {
 });
 
 app.post("/api/new-note/:articleId", function (req, res) {
-    console.log("req.body" + req.body)
+    
     db.Note.create(
         // title: req.body.title,
         req.body
     )
         .then(function (dbNote) {
-            console.log("note " + dbNote)
+            
              //this is being read...'making test'
             return db.Article.findOneAndUpdate({ _id: req.params.articleId }, { $push: { notes: dbNote._id } }, { new: true });
         })
@@ -181,7 +187,7 @@ app.post("/api/new-note/:articleId", function (req, res) {
 // HTML Routes
 
 app.get("/", function (req, res) {
-    console.log("test")
+    
 
     res.render("index")
 
@@ -189,15 +195,17 @@ app.get("/", function (req, res) {
 });
 
 app.get("/saved-articles", function (req, res) {
-    db.Article.find({})
-        .then(function (dbArticle) {
-            res.render("savedArticles", {
-                article: dbArticle
-            });
-        })
-        .catch(function (err) {
-            res.json(err);
-        });
+    // db.Article.find({})
+    //     .populate("notes")
+    //     .then(function (dbArticle) {
+            res.render("savedArticles")
+            // {
+        //         article: dbArticle,
+        //     });
+        // })
+        // .catch(function (err) {
+        //     res.json(err);
+        // });
 });
 
 
