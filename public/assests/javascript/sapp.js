@@ -9,7 +9,8 @@ $.getJSON("/api/articles", function (data) {
     let count = 0;
 
     const counter = data.map(function (data) {
-       
+       count++
+        
         $(".saved-articles")
             .append(`
            <h4 class="headline" data-id="${data._id}">
@@ -35,27 +36,46 @@ $.getJSON("/api/articles", function (data) {
                 </div>
             </div>
             
-
+            
 
         </div>
-
-    </div> `)
-    });
-   
-    
-const noteGenrator = data.reduce(function (data, notes) {
-    if(notes in data){
-        console.log(notes.notes[data[notes].noteBody])
+        
+    </div> 
+    <div class="notes${count}"> </div>`)
        
-        data[notes]++
+});
+var newnotes = [];
+    // console.log(data[0].notes[0].noteBody)
+   for (var i=0; i < data.length; i++){
+    
+       console.log(data[i].notes)
+       for(var j=0; j< data[i].notes.length; j++){
+          
+
+    $(".notes" + (1+i)).append(`<div><p> ${data[i].notes[j].noteBody} <button type="button" data-id=${data[i].notes[j]._id}">  X </button></p></div>`)
+    console.log(data[i].notes[j].noteBody)
+    
+    console.log(newnotes)
+       
+       newnotes.push(data[i].notes[j].noteBody)
+
+       }
+//    $(".notes"+i + 1).append(`<div><p> ${newnotes} <button type="button" data-id=${data[i].notes}">  X </button></p></div>`)
+       
+  }
+// const noteGenrator = data.reduce(function (data, notes) {
+//     if(notes in data){
+//         console.log(data.notes[data[notes]-1].noteBody.concat(notes.notes[data[notes]-1].noteBody))
+       
+//         data[notes]++
       
 
-    }
-    else{
-        data[notes] = 1
-    }
-    // onsole.log(notes)
-   return data
+//     }
+//     else{
+//         data[notes] = 1
+//     }
+//     // onsole.log(notes)
+//    return data
     // console.log(notes.notes[0].noteBody)
        
 
@@ -67,7 +87,7 @@ const noteGenrator = data.reduce(function (data, notes) {
 
            
           
-    })
+    
 
     // for (var i = 0; i < data.length; i++) {
 
@@ -143,13 +163,13 @@ $(document).on("click", ".noter", function (event) {
     })
         .then(function (data) {
             console.log("bringin back data " + data)
-            for (var i = 0; i < data.notes.length; i++) {
-                const noteBody = data.notes[i].noteBody;
-                const noteId = data.notes[i]._id;
-                console.log(noteBody);
+            // for (var i = 0; i < data.notes.length; i++) {
+            //     const noteBody = data.notes[i].noteBody;
+            //     const noteId = data.notes[i]._id;
+            //     console.log(noteBody);
              
-                $(".notes_here"+ i).append(`<div><p> ${noteBody} <button type="button" data-id=${noteId}">  X </button></p></div>`)
-            }
+            //     $(".notes_here"+ i).append(`<div><p> ${noteBody} <button type="button" data-id=${noteId}">  X </button></p></div>`)
+            // }
         })
 })
 
@@ -169,6 +189,9 @@ $(document).on("click", ".add-note", function (event) {
     })
         .then(function (data) {
             console.log("data" + data)
+            location.reload()
+            $(this).closest(".input-group").find(".note-body").val(" ")
+
 
 
         });
