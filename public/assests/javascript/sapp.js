@@ -1,18 +1,14 @@
-
-
-
-
 // if(text && href && blurb && byline)
+const start = function () {
+    $.getJSON("/api/articles", function (data) {
+        // console.log(data)
+        let count = 0;
 
-$.getJSON("/api/articles", function (data) {
-    // console.log(data)
-    let count = 0;
+        const counter = data.map(function (data) {
+            count++
 
-    const counter = data.map(function (data) {
-       count++
-        
-        $(".saved-articles")
-            .append(`
+            $(".saved-articles")
+                .append(`
            <h4 class="headline" data-id="${data._id}">
         <a class="link" href=${data.articleURL}> ${data.title}</a>
     </h4>
@@ -42,159 +38,123 @@ $.getJSON("/api/articles", function (data) {
         
     </div> 
     <div class="notes${count}"> </div>`)
-       
-});
-var newnotes = [];
-    // console.log(data[0].notes[0].noteBody)
-   for (var i=0; i < data.length; i++){
-    
-       console.log(data[i].notes)
-       for(var j=0; j< data[i].notes.length; j++){
-          
-
-    $(".notes" + (1+i)).append(`<div><p> ${data[i].notes[j].noteBody} <button type="button" data-id=${data[i].notes[j]._id}">  X </button></p></div>`)
-    console.log(data[i].notes[j].noteBody)
-    
-    console.log(newnotes)
-       
-       newnotes.push(data[i].notes[j].noteBody)
-
-       }
-//    $(".notes"+i + 1).append(`<div><p> ${newnotes} <button type="button" data-id=${data[i].notes}">  X </button></p></div>`)
-       
-  }
-// const noteGenrator = data.reduce(function (data, notes) {
-//     if(notes in data){
-//         console.log(data.notes[data[notes]-1].noteBody.concat(notes.notes[data[notes]-1].noteBody))
-       
-//         data[notes]++
-      
-
-//     }
-//     else{
-//         data[notes] = 1
-//     }
-//     // onsole.log(notes)
-//    return data
-    // console.log(notes.notes[0].noteBody)
-       
-
-    // $(".saved-articles").append(` <div class = "notes-here"> ${data.note} </div>`)
-
-});
-
-
-
-           
-          
-    
-
-    // for (var i = 0; i < data.length; i++) {
-
-    //     if (data[i].headline && data[i].href && data[i].blurb && data[i].byline && data[i].href) {
-    //         // console.log(data[i]);
-    //         count++;
-    //         var articleData = {
-    //             headline: data[i].headline,
-    //             href: data[i].href,
-    //             blurb: data[i].blurb,
-    //             byline: data[i].byline
-    //         }
-
-    //         $(".articles").append(`
-    //         <h4 class="headline" data-id="${count}"> <a class="link" data-id="${count}" href=${articleData.href}> ${articleData.headline}</a> </h4>
-    //         <p class="blurb" data-id="${count}"> ${articleData.blurb} </p>
-    //         <p class="byline" data-id="${count}"> ${articleData.byline} </p>
-    //         <button type="button" data-id="${count}" class="save-button btn btn-dark"> Save Article </button>
-    //         <br>
-    //         <br>
-    //         `)
-    //     }
-    // }
-
-// const names = princesses.map(function(princess) {
-//     return princess.name;
-//   });
-// console.log("cl")
-// $.getJSON("/saved-articles", function (data) {
-//     let count = 0;
-//     console.log(data)
-// //     const articleData = data.map(function(data){
-// //         console.log(data.title)
-// //     })
-
-// //   articleData(); 
-// })
-
-
-
-// $(document).on("click", ".save-button", function () {
-//     var articleId = $(this).attr("data-id");
-//     // console.log(articleId);
-
-//     var newArticle = {
-//         title: $("h4.headline").attr("data-id", articleId)[articleId - 1].innerText,
-//         articleUrl: $("a.link").attr("data-id", articleId)[articleId - 1].href,
-//         blurb: $("p.blurb").attr("data-id", articleId)[articleId - 1].innerText,
-//         byline: $("p.byline").attr("data-id", articleId)[articleId - 1].innerText,
-//     }
-
-//     $.ajax({
-//         method: "POST",
-//         url: "/api/article/save",
-//         data: newArticle
-//     })
-//         .then(function (data) {
-//             // console.log(data)
-//             // console.log("New Article added")
-//         })
-// });
-
-
-// //Get Notes 
-$(document).on("click", ".noter", function (event) {
-
-
-    var articleId = $(this).attr("data-id");
-    console.log(articleId)
-    $.ajax({
-        method: "GET",
-        url: "/api/articles/notes/" + articleId
-    })
-        .then(function (data) {
-            console.log("bringin back data " + data)
-            // for (var i = 0; i < data.notes.length; i++) {
-            //     const noteBody = data.notes[i].noteBody;
-            //     const noteId = data.notes[i]._id;
-            //     console.log(noteBody);
-             
-            //     $(".notes_here"+ i).append(`<div><p> ${noteBody} <button type="button" data-id=${noteId}">  X </button></p></div>`)
-            // }
-        })
-})
-
-$(document).on("click", ".add-note", function (event) {
-
-    var articleId = $(this).attr("data-id");
-    var bodyText = $(this).closest(".input-group").find(".note-body").val()
-    console.log(articleId)
-    console.log("notes " + bodyText)
-
-    $.ajax({
-        method: "POST",
-        url: "/api/new-note/" + articleId,
-        data: {
-            noteBody: bodyText
-        }
-    })
-        .then(function (data) {
-            console.log("data" + data)
-            location.reload()
-            $(this).closest(".input-group").find(".note-body").val(" ")
-
-
 
         });
+        var newnotes = [];
+        // console.log(data[0].notes[0].noteBody)
+        for (var i = 0; i < data.length; i++) {
+
+            console.log(data[i].notes)
+            for (var j = 0; j < data[i].notes.length; j++) {
 
 
-})
+                $(".notes" + (1 + i)).append(`<div class="delete${data[i].notes[j]._id} notesClass"><p> ${data[i].notes[j].noteBody} <button type="button" class="removal-button" data-id="${data[i].notes[j]._id}">  X </button></p></div>`)
+                console.log(data[i].notes[j].noteBody)
+
+                console.log(newnotes)
+
+                newnotes.push(data[i].notes[j].noteBody)
+
+            }
+            //    $(".notes"+i + 1).append(`<div><p> ${newnotes} <button type="button" data-id=${data[i].notes}">  X </button></p></div>`)
+
+        }
+    
+    });
+
+};
+
+start()
+
+const renderNotes = function () {
+
+    $(".notesClass").empty();
+    $.getJSON("/api/articles", function (data) {
+
+        var newnotes = [];
+        // console.log(data[0].notes[0].noteBody)
+        for (var i = 0; i < data.length; i++) {
+
+            for (var j = 0; j < data[i].notes.length; j++) {
+
+
+                $(".notes" + (1 + i)).append(`<div class="delete${data[i].notes[j]._id} notesClass"><p> ${data[i].notes[j].noteBody} <button type="button" class="removal-button" data-id="${data[i].notes[j]._id}">  X </button></p></div>`)
+              
+
+                newnotes.push(data[i].notes[j].noteBody)
+
+            }
+            //    $(".notes"+i + 1).append(`<div><p> ${newnotes} <button type="button" data-id=${data[i].notes}">  X </button></p></div>`)
+
+        }
+    
+    });
+
+};
+
+
+        // //Get Notes 
+        $(document).on("click", ".noter", function (event) {
+
+
+            var articleId = $(this).attr("data-id");
+            console.log(articleId)
+            $.ajax({
+                    method: "GET",
+                    url: "/api/articles/notes/" + articleId
+                })
+                .then(function (data) {
+
+                    // for (var i = 0; i < data.notes.length; i++) {
+                    //     const noteBody = data.notes[i].noteBody;
+                    //     const noteId = data.notes[i]._id;
+                    //     console.log(noteBody);
+
+                    //     $(".notes_here"+ i).append(`<div><p> ${noteBody} <button type="button" data-id=${noteId}">  X </button></p></div>`)
+                    // }
+                })
+        })
+
+        $(document).on("click", ".add-note", function (event) {
+
+            var articleId = $(this).attr("data-id");
+            var bodyText = $(this).closest(".input-group").find(".note-body").val().trim()
+            console.log(articleId)
+            console.log("notes " + bodyText)
+
+            $.ajax({
+                    method: "POST",
+                    url: "/api/new-note/" + articleId,
+                    data: {
+                        noteBody: bodyText
+                    }
+                })
+                .then(function (data) {
+                    console.log(data)
+
+                })
+            $(this).closest(".input-group").find(".note-body").val(" ")
+            renderNotes();
+
+        })
+
+        $(document).on("click", ".removal-button", function (event) {
+
+            var noteId = $(this).attr("data-id");
+            console.log(noteId);
+            // var bodyText = $(this).closest(".input-group").find(".note-body").val()
+            // console.log(articleId)
+            // console.log("notes " + bodyText)
+
+            $.ajax({
+                    method: "DELETE",
+                    url: "/api/delete/" + noteId,
+                })
+                .then(function (data) {
+                    console.log("data" + data)
+
+                });
+            console.log("remove");
+
+            $(".delete" + noteId).remove();
+        });

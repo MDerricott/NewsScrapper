@@ -183,6 +183,29 @@ app.post("/api/new-note/:articleId", function (req, res) {
 
 
 
+// Delete One from the DB
+app.delete("/api/delete/:noteId", function(req, res) {
+    // Remove a note using the objectID
+    console.log(req.params)
+db.Note.findByIdAndRemove(
+    req.params.noteId
+,function(error, removed){
+
+    console.log("delete")
+
+    if(error){
+        console.log(error);
+        res.send(error);
+    }
+    else {
+        console.log(removed);
+        res.send(removed);
+    }
+})
+
+  });
+
+
 
 // HTML Routes
 
@@ -202,7 +225,7 @@ app.get("/saved-articles", function (req, res) {
             // {
         //         article: dbArticle,
         //     });
-        // })
+        // }) 
         // .catch(function (err) {
         //     res.json(err);
         // });
