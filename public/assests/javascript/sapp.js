@@ -8,7 +8,7 @@ const start = function () {
             count++
 
             $(".saved-articles")
-                .append(`
+                .append(`<row>
            <h4 class="headline" data-id="${data._id}">
         <a class="link" href=${data.articleURL}> ${data.title}</a>
     </h4>
@@ -37,28 +37,19 @@ const start = function () {
         </div>
         
     </div> 
-    <div class="notes${count}"> </div>`)
+   <br>
+  <strong>Notes for this Article</strong>
+   
+    <div class="notes${count} p-2"> 
+            
+    </div>
+    <row>
+    <br>
+    <br>`)
 
         });
-        var newnotes = [];
-        // console.log(data[0].notes[0].noteBody)
-        for (var i = 0; i < data.length; i++) {
-
-            console.log(data[i].notes)
-            for (var j = 0; j < data[i].notes.length; j++) {
-
-
-                $(".notes" + (1 + i)).append(`<div class="delete${data[i].notes[j]._id} notesClass"><p> ${data[i].notes[j].noteBody} <button type="button" class="removal-button" data-id="${data[i].notes[j]._id}">  X </button></p></div>`)
-                console.log(data[i].notes[j].noteBody)
-
-                console.log(newnotes)
-
-                newnotes.push(data[i].notes[j].noteBody)
-
-            }
-            //    $(".notes"+i + 1).append(`<div><p> ${newnotes} <button type="button" data-id=${data[i].notes}">  X </button></p></div>`)
-
-        }
+        renderNotes()
+    
     
     });
 
@@ -78,9 +69,20 @@ const renderNotes = function () {
             for (var j = 0; j < data[i].notes.length; j++) {
 
 
-                $(".notes" + (1 + i)).append(`<div class="delete${data[i].notes[j]._id} notesClass"><p> ${data[i].notes[j].noteBody} <button type="button" class="removal-button" data-id="${data[i].notes[j]._id}">  X </button></p></div>`)
+                $(".notes" + (1 + i)).prepend(`
               
-
+            
+                    <div class="row p-3 delete${data[i].notes[j]._id} notesClass shadow-sm p-3 bg-white rounded">
+                       <div class="col-sm">
+                            <span class="strong">${data[i].notes[j].noteBody} </span>
+                        </div>
+                        <div class="col-sm">
+                           <button type="button" class="removal-button float-right" data-id="${data[i].notes[j]._id}">  X </button> 
+                        </div>   
+                    </div>
+                    <br>
+            
+            `)
                 newnotes.push(data[i].notes[j].noteBody)
 
             }
@@ -115,6 +117,8 @@ const renderNotes = function () {
                 })
         })
 
+
+        //Add a Note
         $(document).on("click", ".add-note", function (event) {
 
             var articleId = $(this).attr("data-id");
@@ -134,6 +138,7 @@ const renderNotes = function () {
 
                 })
             $(this).closest(".input-group").find(".note-body").val(" ")
+
             renderNotes();
 
         })
@@ -142,9 +147,6 @@ const renderNotes = function () {
 
             var noteId = $(this).attr("data-id");
             console.log(noteId);
-            // var bodyText = $(this).closest(".input-group").find(".note-body").val()
-            // console.log(articleId)
-            // console.log("notes " + bodyText)
 
             $.ajax({
                     method: "DELETE",

@@ -19,7 +19,7 @@ $.getJSON("/api/washingtonpost/scrape", function (data) {
             <h4 class="headline" data-id="${count}"> <a class="link" data-id="${count}" href=${articleData.href}> ${articleData.headline}</a> </h4>
             <p class="blurb" data-id="${count}"> ${articleData.blurb} </p>
             <p class="byline" data-id="${count}"> ${articleData.byline} </p>
-            <button type="button" data-id="${count}" class="save-button btn btn-dark"> Save Article </button>
+            <button type="button" data-id="${count}" class="save-button btn btn-dark" data-toggle="button" aria-pressed="false"> Save Article </button>
             <br>
             <br>
             `)
@@ -42,27 +42,27 @@ $.getJSON("/api/washingtonpost/scrape", function (data) {
 
 
 
-// $(document).on("click", ".save-button", function () {
-//     var articleId = $(this).attr("data-id");
-//     // console.log(articleId);
+$(document).on("click", ".save-button", function (event) {
+    var articleId = $(this).attr("data-id");
+    console.log(articleId);
 
-//     var newArticle = {
-//         title: $("h4.headline").attr("data-id", articleId)[articleId - 1].innerText,
-//         articleUrl: $("a.link").attr("data-id", articleId)[articleId - 1].href,
-//         blurb: $("p.blurb").attr("data-id", articleId)[articleId - 1].innerText,
-//         byline: $("p.byline").attr("data-id", articleId)[articleId - 1].innerText,
-//     }
+    var newArticle = {
+        title: $("h4.headline").attr("data-id", articleId)[articleId - 1].innerText,
+        articleUrl: $("a.link").attr("data-id", articleId)[articleId - 1].href,
+        blurb: $("p.blurb").attr("data-id", articleId)[articleId - 1].innerText,
+        byline: $("p.byline").attr("data-id", articleId)[articleId - 1].innerText,
+    }
 
-//     $.ajax({
-//         method: "POST",
-//         url: "/api/article/save",
-//         data: newArticle
-//     })
-//         .then(function (data) {
-//             // console.log(data)
-//             // console.log("New Article added")
-//         })
-// });
+    $.ajax({
+        method: "POST",
+        url: "/api/article/save",
+        data: newArticle
+    })
+        .then(function (data) {
+            console.log(data)
+            console.log("New Article added")
+        })
+});
 
 
 // //Get Notes 

@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="row">
+        <h4 class="headline" data-id="${data._id}">
+            <a class="link" href=${data.articleURL}> ${data.title}</a>
+        </h4>
+        <p class="blurb"> ${data.blurb} </p>
+        <p class="byline"> ${data.byline} </p>
+        <p>
+            <button class="btn btn-primary noter" type="button" data-toggle="collapse" data-target="#collapseExample-${data._id}"
+                aria-expanded="false" aria-controls="collapseExample-${data._id}" data-id="${data._id}">
+                Add a Note
+            </button>
+        </p>
+        <div class="collapse" id="collapseExample-${data._id}">
+            <div class="card card-body">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control note-body" data-id="${data._id}" placeholder="Enter Your Note"
+                        aria-label="Recipient's username" aria-describedby="button-addon2">
+
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary add-note" data-id="${data._id}" type="button">Add Note</button>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+
+        <strong>Notes for this Article</strong>
+    </div>
+    <br>
+    <div class="row notes${count} p-2">
+
+    </div>
+</div>
+<br>
+<br>
