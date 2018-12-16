@@ -161,7 +161,7 @@ app.post("/api/article/save", function (req, res) {
             console.log(err);
         });
 });
-
+// New Note
 app.post("/api/new-note/:articleId", function (req, res) {
     
     db.Note.create(
